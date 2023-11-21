@@ -24,16 +24,20 @@ $config = require_once 'config.php';
 use MyFramework\Core\Database as Database;
 use MyFramework\Core\Logger as Logger;
 use MyFramework\Core\DIContainer as DIContainer;
+use MyFramework\Core\ServiceLocator as ServiceLocator;
+use MyFramework\Controllers\IndexController as IndexController;
 
-$di = new DIContainer();
-$di->set('logger', new Logger());
-$di->set('database', Database::getInstance($di->get('logger'), $config));
+$init = function() use ($config) {
+    $di = new DIContainer();
+    $di->set('IndexController', new IndexController());
+    $di->set('logger', new Logger());
+    $di->set('database', Database::getInstance($di->get('logger'), $config));
 
+    ServiceLocator::setContainer($di);
+};
 
+$init();
 
+$indexController = ServiceLocator::get('IndexController');
 
-$db = $di->get('database');
-$rows = $db->query('select * from posts');
-
-echo '<pre>';
-print_r($rows);
+$indexController->posts();
