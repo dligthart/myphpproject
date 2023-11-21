@@ -8,13 +8,15 @@ class Database
     
     private $connection = null;
     
-    public function __construct(private array $config) 
+    public function __construct(private array $config, private Logger $logger) 
     {
     }
 
     public function connect() 
     {
         if ($this->connection === null) {
+            
+            $this->logger->log('Creating a new connection');
 
             $this->connection = mysqli_connect(
                 $this->config['database']['host'], 
@@ -23,25 +25,27 @@ class Database
                 $this->config['database']['database'],
                 $this->config['database']['port'],
             );
-        }
+        } 
     }
 
     public function query(string $sql) 
     {
         $this->connect();
 
+        $this->logger->log('Executing ' . $sql);
+
         $result = mysqli_query($this->connection, $sql);
     
         return mysqli_fetch_assoc($result);
     }
 
-    public static function getInstance($config = null)
+    public static function getInstance(Logger $logger, $config = null)
     {
         if (self::$instance === null) {
             if ($config === null) {
                 throw new \Exception("Singleton requires initial configuration");
             }
-            self::$instance = new Database($config);
+            self::$instance = new Database($config, $logger);
         }
         
         return self::$instance;
