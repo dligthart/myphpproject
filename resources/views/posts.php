@@ -22,9 +22,9 @@
         <main>
             <section>
                 <?php foreach($posts as $post): ?>
-                <article class="post">
-                    <h2 class="post__title"><?php echo $post['post_title']; ?></h2>
-                    <p class="post__content"><?php echo $post['post_content']; ?></p>
+                <article class="post post__<?php echo $post->getId(); ?>">
+                    <h2 class="post__title"><?php echo $post->getTitle(); ?></h2>
+                    <p class="post__content"><?php echo $post->getContent(); ?></p>
                 </article>
                 <?php endforeach; ?>
             </section>
