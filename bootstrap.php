@@ -26,10 +26,13 @@ use MyFramework\Core\Logger as Logger;
 use MyFramework\Core\DIContainer as DIContainer;
 use MyFramework\Core\ServiceLocator as ServiceLocator;
 use MyFramework\Controllers\IndexController as IndexController;
+use MyFramework\Http\Routing\Router as Router;
+use MyFramework\Http\Routing\Route as Route;
 
 $init = function() use ($config) {
     $di = new DIContainer();
-    $di->set('IndexController', new IndexController());
+    $di->set(IndexController::class, new IndexController());
+    $di->set('Router', new Router());
     $di->set('logger', new Logger());
     $di->set('database', Database::getInstance($di->get('logger'), $config));
 
@@ -38,6 +41,13 @@ $init = function() use ($config) {
 
 $init();
 
-$indexController = ServiceLocator::get('IndexController');
+$router = ServiceLocator::get('Router');
 
-$indexController->posts();
+$router->addRoute(
+    new Route(
+        '/posts',
+        IndexController::class,
+        'posts'
+    ));
+
+$router->dispatch();

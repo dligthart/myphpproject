@@ -18,10 +18,10 @@ class IndexController
     {
         $db = \MyFramework\Core\ServiceLocator::get('database');
         
-        $rows = $db->query('select * from posts');
+        $posts = $db->query('select * from posts');
 
         echo '<pre>';
-        print_r($rows);
+        print_r($posts);
     }
 
 }
