@@ -2,6 +2,8 @@
 
 namespace MyFramework\Controllers;
 
+use MyFramework\Views\View as View;
+
 class IndexController
 {
     public function __construct()
@@ -11,6 +13,6 @@ class IndexController
 
     public function index() 
     {
-        echo 'showing index';
+        View::show('home', []);
     }
 }

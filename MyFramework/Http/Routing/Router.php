@@ -23,15 +23,17 @@ class Router
 
         foreach($this->routes as $route) 
         {   
-            $found = $route->getPath() == $request->getPath();
-            
+            $found = $route->getPath() === $request->getPath();
+        
             if($found)
             {
                 $controller = ServiceLocator::get($route->getControllerClassName());
                 $controller->{$route->getControllerClassMethod()}();
+                
+                die();
             }
-        }
-
+        }       
+       
         if (!$found) {
             die('<h1>404 - not found</h1>');       
         }

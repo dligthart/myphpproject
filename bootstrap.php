@@ -49,6 +49,12 @@ $router = ServiceLocator::get('Router');
 
 $router->addRoute(
     new Route(
+        '/',
+        IndexController::class
+    ));
+
+$router->addRoute(
+    new Route(
         '/posts',
         PostsController::class
     ));
