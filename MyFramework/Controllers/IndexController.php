@@ -13,15 +13,4 @@ class IndexController
     {
         echo 'showing index';
     }
-
-    public function posts()
-    {
-        $db = \MyFramework\Core\ServiceLocator::get('database');
-        
-        $posts = $db->query('select * from posts');
-
-        echo '<pre>';
-        print_r($posts);
-    }
-
 }

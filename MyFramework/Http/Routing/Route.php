@@ -6,7 +6,7 @@ class Route
     public function __construct(
         private string $path,
         private string $controllerClassName,
-        private string $controllerClassMethod
+        private string $controllerClassMethod = 'index'
     ){}
 
     public function getPath(): string

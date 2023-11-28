@@ -28,15 +28,21 @@ class Database
         } 
     }
 
-    public function query(string $sql) 
+    public function query(string $sql): array
     {
         $this->connect();
 
         $this->logger->log('Executing ' . $sql);
 
         $result = mysqli_query($this->connection, $sql);
-    
-        return mysqli_fetch_assoc($result);
+        
+        $data = [];
+
+        while($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+        
+        return $data;
     }
 
     public static function getInstance(Logger $logger, $config = null)
