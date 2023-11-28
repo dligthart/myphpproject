@@ -33,7 +33,9 @@ use MyFramework\Http\Routing\Route as Route;
 $init = function() use ($config) {
     $di = new DIContainer();
     $di->set(IndexController::class, new IndexController());
-    $di->set(PostsController::class, new PostsController());
+    $di->set(PostsController::class, new PostsController(
+        new MyFramework\Repositories\PostRepository()
+    ));
     $di->set('Router', new Router());
     $di->set('logger', new Logger());
     $di->set('database', Database::getInstance($di->get('logger'), $config));
